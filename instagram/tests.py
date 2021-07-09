@@ -63,3 +63,11 @@ class TestPost(TestCase):
     Post.objects.all().delete()
     User.objects.all().delete()
     Location.objects.all().delete()
+
+  def test_isinstance(self):
+    self.assertTrue(isinstance(self.new_post, Post))
+
+  def test_savePicture(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'this is wow' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    self.assertEqual(len(Post.objects.all()),2)
