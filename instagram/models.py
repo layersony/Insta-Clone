@@ -27,7 +27,7 @@ class Profile(models.Model):
     if created:
       Profile.objects.create(username = instance)
 
-  @reversed(post_save, sender=User)
+  @receiver(post_save, sender=User)
   def save_user_profile(sender, instance, created, **kwargs):
     instance.profile.save()
 
@@ -37,11 +37,16 @@ class Profile(models.Model):
 class Post(models.Model):
   picture = models.ImageField(upload_to='photos/')
   caption = models.CharField(max_length=3000)
-  uploadedBy = models.ForeignKey(Profile)
+  uploadedBy = models.ForeignKey(Profile, on_delete=models.CASCADE)
   location = models.ForeignKey(Location, on_delete=models.CASCADE)
   posted = models.DateTimeField(auto_now_add=True)
+
   def __str__(self):
     return self.caption
 
   def save_picture(self, user):
     self.save()
+
+  @classmethod
+  def delete_picture(cls, id):
+    cls.objects.filter(id=id).delete()
