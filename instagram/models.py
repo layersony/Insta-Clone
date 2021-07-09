@@ -55,3 +55,14 @@ class Post(models.Model):
   def update_caption(cls, id, caption):
     cls.objects.filter(id=id).update(caption = caption)
 
+  @classmethod
+  def user_pictures(cls, username):
+    pics = cls.objects.filter(uploadedBy__username = username)
+    return pics
+
+  @classmethod
+  def all_pictures(cls):
+    all_pics = cls.objects.all()
+    return all_pics
+
+  
