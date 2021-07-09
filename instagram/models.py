@@ -50,3 +50,8 @@ class Post(models.Model):
   @classmethod
   def delete_picture(cls, id):
     cls.objects.filter(id=id).delete()
+
+  @classmethod
+  def update_caption(cls, id, caption):
+    cls.objects.filter(id=id).update(caption = caption)
+
