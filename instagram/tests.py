@@ -49,3 +49,17 @@ class TestProfile(TestCase):
     self.new_user2.save()
     image_search = Profile.searchProfile(search)
     self.assertTrue(len(image_search) == 1)
+
+class TestPost(TestCase):
+  def setUp(self):
+    self.location = Location(location='Machakos')
+    self.location.save()
+    self.new_user = User(username = "layersony")
+    self.new_user.save()
+    self.new_post = Post(picture='test.jpg',caption = 'this is amazing' , uploadedBy = self.new_user, location=self.location)
+    self.new_post.save_picture()
+  
+  def tearDown(self):
+    Post.objects.all().delete()
+    User.objects.all().delete()
+    Location.objects.all().delete()
