@@ -16,3 +16,17 @@ class TestLocation(TestCase):
     self.location.save()
     location = Location.objects.all()
     self.assertTrue(len(location)>0)
+
+  def test_deleteLocation(self):
+    self.location.saveLocation()
+    self.location2 = Location.objects.create(location='Mombasa')
+    Location.deleteLocation(self.location2.id)
+    self.assertTrue(len(Location.objects.all())==1)
+
+  def test_updateLocation(self):
+    update_term = 'Mombasa'
+    self.location.saveLocation()
+    Location.updateLocation(self.location.id, update_term)  
+    updated_one = Location.objects.get(id=self.location.id)
+    self.assertEqual(updated_one.location, 'Mombasa')
+
