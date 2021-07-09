@@ -30,3 +30,12 @@ class TestLocation(TestCase):
     updated_one = Location.objects.get(id=self.location.id)
     self.assertEqual(updated_one.location, 'Mombasa')
 
+class TestProfile(TestCase):
+  def setUp(self):
+    self.new_user = User(username = "layersony", email = "layersony@gmail.com",password = "layersony1234")
+    self.new_user.save()
+
+  def tearDown(self):
+    Profile.objects.all().delete()
+    User.objects.all().delete()
+
