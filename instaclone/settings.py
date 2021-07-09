@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import django_heroku
 import dj_database_url
 from decouple import config, Csv
@@ -72,8 +73,7 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 
 DATABASES['default'].update(db_from_env)
 
-ALLOWED_HOSTS = [config('ALLOWED_HOSTS', cast=Csv())]
-
+ALLOWED_HOSTS =['.localhost','.herokuapp.com','127.0.0.1']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,9 +104,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+django_heroku.settings(locals())
