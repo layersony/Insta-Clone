@@ -40,3 +40,8 @@ class Post(models.Model):
   uploadedBy = models.ForeignKey(Profile)
   location = models.ForeignKey(Location, on_delete=models.CASCADE)
   posted = models.DateTimeField(auto_now_add=True)
+  def __str__(self):
+    return self.caption
+
+  def save_picture(self, user):
+    self.save()
