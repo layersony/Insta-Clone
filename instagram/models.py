@@ -82,4 +82,9 @@ class Post(models.Model):
     all_pics = cls.objects.all()
     return all_pics
 
+class Comments(models.Model):
+  comment = models.CharField(max_length=200, null=True, blank=True)
+  pic = models.ForeignKey(Post, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+
   
