@@ -35,4 +35,8 @@ class Profile(models.Model):
     return self.username.username
 
 class Post(models.Model):
-  pass
+  picture = models.ImageField(upload_to='photos/')
+  caption = models.CharField(max_length=3000)
+  uploadedBy = models.ForeignKey(Profile)
+  location = models.ForeignKey(Location, on_delete=models.CASCADE)
+  posted = models.DateTimeField(auto_now_add=True)
