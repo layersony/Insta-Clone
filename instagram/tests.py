@@ -78,3 +78,9 @@ class TestPost(TestCase):
     self.assertEqual(len(Post.objects.all()),2)
     Post.delete_picture(self.new_post2.id)
     self.assertEqual(len(Post.objects.all()),1)
+
+  def test_update(self):
+    self.new_post.save_picture()
+    self.new_post.update_caption(self.new_post.id, 'loving it')
+    updated_post = Post.objects.get(id=self.new_post.id)
+    self.assertEqual(updated_post.caption, 'loving it')   
