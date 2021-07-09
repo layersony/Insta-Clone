@@ -10,7 +10,12 @@ class Location(models.Model):
     return self.location
 
 class Profile(models.Model):
-  pass
+  profilePic = models.ImageField(upload_to='photos/', null=True)
+  fullName= models.CharField(max_length=255, null=True)
+  username = models.OneToOneField(User, on_delete=models.CASCADE, related_name='username')
+  bio = HTMLField(null=True)
+  phoneNumber = models.IntegerField(null=True)
+  gender = models.CharField(choices=Gender, default='Male', null=True)
 
 class Post(models.Model):
   pass
