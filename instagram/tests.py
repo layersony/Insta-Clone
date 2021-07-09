@@ -114,3 +114,6 @@ class TestComment(TestCase):
     Comments.objects.all().delete()
 
   def test_isinstance(self):
+    self.assertTrue(isinstance(self.new_comment, Comments))
+
+  def test_saveComment(self):
