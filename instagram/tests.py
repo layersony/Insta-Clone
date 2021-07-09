@@ -96,3 +96,14 @@ class TestPost(TestCase):
     self.new_post2.save_picture()
     usrpic = Post.user_pictures(self.new_user.username)
     self.assertEqual(len(usrpic), 2)
+
+  def setUp(self):
+    self.location = Location(location='Machakos')
+    self.location.save()
+    self.new_user = User(username = "layersony")
+    self.new_user.save()
+    self.new_post = Post(picture='test.jpg',caption = 'this is amazing' , uploadedBy = self.new_user, location=self.location)
+    self.new_post.save_picture()
+    self.new_comment = Comments(comment = "bravo", pic = self.new_post, user=self.new_user)
+
+  def tearDown(self):
