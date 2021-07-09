@@ -1,8 +1,13 @@
 from django.db import models
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-Gender = ()
+Gender = (
+  ('Male', 'Male'),
+  ('Female', 'Female'),
+)
 class Location(models.Model):
   location = models.CharField(max_length=100)
 
@@ -16,6 +21,18 @@ class Profile(models.Model):
   bio = HTMLField(null=True)
   phoneNumber = models.IntegerField(null=True)
   gender = models.CharField(choices=Gender, default='Male', null=True)
+
+  @receiver(post_save, sender=User)
+  def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+      Profile.objects.create(username = instance)
+
+  @reversed(post_save, sender=User)
+  def save_user_profile(sender, instance, created, **kwargs):
+    instance.profile.save()
+
+  def __str__(self):
+    return self.username.username
 
 class Post(models.Model):
   pass
