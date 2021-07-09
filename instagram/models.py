@@ -54,14 +54,14 @@ class Profile(models.Model):
 class Post(models.Model):
   picture = models.ImageField(upload_to='photos/')
   caption = models.CharField(max_length=3000)
-  # uploadedBy = models.ForeignKey(Profile, on_delete=models.CASCADE)
+  uploadedBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
   location = models.ForeignKey(Location, on_delete=models.CASCADE)
   posted = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
     return self.caption
 
-  def save_picture(self, user):
+  def save_picture(self):
     self.save()
 
   @classmethod
