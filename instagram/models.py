@@ -3,6 +3,7 @@ from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models import Q
 
 Gender = (
   ('Male', 'Male'),
@@ -38,6 +39,7 @@ class Profile(models.Model):
   def searchProfile(cls, searchTerm):
     profiles = cls.objects.filter(Q(username__icontains=searchTerm) | Q(fullName_icontains=searchTerm))
     return profiles
+
 class Post(models.Model):
   picture = models.ImageField(upload_to='photos/')
   caption = models.CharField(max_length=3000)
