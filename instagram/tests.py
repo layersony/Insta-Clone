@@ -97,6 +97,7 @@ class TestPost(TestCase):
     usrpic = Post.user_pictures(self.new_user.username)
     self.assertEqual(len(usrpic), 2)
 
+class TestComment(TestCase):
   def setUp(self):
     self.location = Location(location='Machakos')
     self.location.save()
@@ -107,3 +108,9 @@ class TestPost(TestCase):
     self.new_comment = Comments(comment = "bravo", pic = self.new_post, user=self.new_user)
 
   def tearDown(self):
+    Post.objects.all().delete()
+    User.objects.all().delete()
+    Location.objects.all().delete()
+    Comments.objects.all().delete()
+
+  def test_isinstance(self):
