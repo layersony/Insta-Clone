@@ -48,7 +48,7 @@ class Profile(models.Model):
 
   @classmethod
   def searchProfile(cls, searchTerm):
-    profiles = cls.objects.filter(Q(username__icontains=searchTerm) | Q(fullName_icontains=searchTerm))
+    profiles = User.objects.filter(username__icontains=searchTerm)
     return profiles
 
 class Post(models.Model):
