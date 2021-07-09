@@ -34,6 +34,10 @@ class Profile(models.Model):
   def __str__(self):
     return self.username.username
 
+  @classmethod
+  def searchProfile(cls, searchTerm):
+    profiles = cls.objects.filter(Q(username__icontains=searchTerm) | Q(fullName_icontains=searchTerm))
+    return profiles
 class Post(models.Model):
   picture = models.ImageField(upload_to='photos/')
   caption = models.CharField(max_length=3000)
