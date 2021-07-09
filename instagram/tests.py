@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .models import Location, Profile, Post
+from django.contrib.auth.models import User
 
 
 class TestLocation(TestCase):
@@ -39,3 +40,12 @@ class TestProfile(TestCase):
     Profile.objects.all().delete()
     User.objects.all().delete()
 
+  def test_isinstance(self):
+    self.assertTrue(isinstance(self.new_user.profile, Profile))
+
+  def test_searchProfile(self):
+    search = 'mutunga'
+    self.new_user2 = User(username = "mutunga", email = "mutunga@gmail.com",password = "mutunga1234")
+    self.new_user2.save()
+    image_search = Profile.searchProfile(search)
+    self.assertTrue(len(image_search) == 1)
