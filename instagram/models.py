@@ -22,24 +22,25 @@ class Location(models.Model):
   @classmethod
   def updateLocation(cls, id, locaUpdate):
     cls.objects.filter(id=id).update(location=locaUpdate)
+
   def __str__(self):
     return self.location
 
 class Profile(models.Model):
   profilePic = models.ImageField(upload_to='photos/', null=True)
   fullName= models.CharField(max_length=255, null=True)
-  username = models.OneToOneField(User, on_delete=models.CASCADE, related_name='username')
+  username = models.OneToOneField(User, on_delete=models.CASCADE)
   bio = HTMLField(null=True)
   phoneNumber = models.IntegerField(null=True)
-  gender = models.CharField(choices=Gender, default='Male', null=True)
+  gender = models.CharField(choices=Gender, default='Male', null=True, max_length=50)
 
   @receiver(post_save, sender=User)
   def create_user_profile(sender, instance, created, **kwargs):
     if created:
-      Profile.objects.create(username = instance)
+      Profile.objects.create(username=instance)
 
   @receiver(post_save, sender=User)
-  def save_user_profile(sender, instance, created, **kwargs):
+  def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
   def __str__(self):
@@ -53,7 +54,7 @@ class Profile(models.Model):
 class Post(models.Model):
   picture = models.ImageField(upload_to='photos/')
   caption = models.CharField(max_length=3000)
-  uploadedBy = models.ForeignKey(Profile, on_delete=models.CASCADE)
+  # uploadedBy = models.ForeignKey(Profile, on_delete=models.CASCADE)
   location = models.ForeignKey(Location, on_delete=models.CASCADE)
   posted = models.DateTimeField(auto_now_add=True)
 
