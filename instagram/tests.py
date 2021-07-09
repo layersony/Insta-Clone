@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class TestLocation(TestCase):
   def setUp(self):
     self.location = Location(location='Machakos')
+    self.location.save()
 
   def TearDown(self):
     Location.objects.all().delete()
@@ -84,3 +85,14 @@ class TestPost(TestCase):
     self.new_post.update_caption(self.new_post.id, 'loving it')
     updated_post = Post.objects.get(id=self.new_post.id)
     self.assertEqual(updated_post.caption, 'loving it')   
+  
+  def test_allpics(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'this is wow' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    self.assertEqual(len(Post.all_pictures()), 2)
+
+  def test_userPictures(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'this is wow' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    usrpic = Post.user_pictures(self.new_user.username)
+    self.assertEqual(len(usrpic), 2)
