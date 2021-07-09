@@ -9,4 +9,10 @@ class TestLocation(TestCase):
   def TearDown(self):
     Location.objects.all().delete()
 
-# Create your tests here.
+  def test_instance(self):
+    self.assertTrue(isinstance(self.location, Location))
+
+  def test_saveLocation(self):
+    self.location.save()
+    location = Location.objects.all()
+    self.assertTrue(len(location)>0)
