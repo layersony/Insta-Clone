@@ -71,3 +71,10 @@ class TestPost(TestCase):
     self.new_post2 = Post(picture='test2.jpg',caption = 'this is wow' , uploadedBy = self.new_user, location=self.location)
     self.new_post2.save_picture()
     self.assertEqual(len(Post.objects.all()),2)
+
+  def test_deletePicture(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'this is wow' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    self.assertEqual(len(Post.objects.all()),2)
+    Post.delete_picture(self.new_post2.id)
+    self.assertEqual(len(Post.objects.all()),1)
