@@ -117,3 +117,9 @@ class TestComment(TestCase):
     self.assertTrue(isinstance(self.new_comment, Comments))
 
   def test_saveComment(self):
+
+  def test_deleteComment(self):
+    self.new_comment.save_comment()
+    self.assertTrue(len(Comments.objects.all()) > 0)
+    Comments.delete_comment(self.new_comment.id)
+    self.assertTrue(len(Comments.objects.all()) == 0)
