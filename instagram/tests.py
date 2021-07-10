@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Location, Profile, Post
+from .models import Location, Profile, Post, Comments
 from django.contrib.auth.models import User
 
 
@@ -117,6 +117,8 @@ class TestComment(TestCase):
     self.assertTrue(isinstance(self.new_comment, Comments))
 
   def test_saveComment(self):
+    self.new_comment.save_comment()
+    self.assertEqual(len(Comments.objects.all()), 1)
 
   def test_deleteComment(self):
     self.new_comment.save_comment()
