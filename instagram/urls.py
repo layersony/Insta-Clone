@@ -6,6 +6,8 @@ from django.conf import settings
 
 urlpatterns=[
   path('', views.index, name='home'),
+  path('accounts/profile', views.profile, name='uprofile'),
+  path('postpic', views.post_pic, name='postpic')
 ]
 
 if settings.DEBUG:
