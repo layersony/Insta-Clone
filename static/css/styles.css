@@ -1,0 +1,20 @@
+.navbar-brand img{
+  width: 120px;
+}
+/* .navcustom{
+  background: red;
+} */
+.navjus{
+  border-bottom: 2px solid;
+}
+hr{
+  height: 20px;
+}
+.imagepic{
+  background: rgba(220, 220, 220, 0.337);
+}
+
+.postimage{
+  max-height: 400px;
+  
+}

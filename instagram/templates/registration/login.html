@@ -1,41 +1,50 @@
 {%extends "registration/base.html"%}
 {% load bootstrap4 %}
+{% load static %}
+
 {% block content %}
-<div class="container">
-  <div class="row">
-    <!-- Empty div -->
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      {% if form.errors %}
-        <p> Password or Username is incorrect </p>
-      {% endif %}
-      <div class="panel panel-default">
-
-        <div class="panel-heading">
-          <h3 class="text-center">Sign In</h3>
-        </div>
-        <div class="panel-body">
-
-          <form  action="/accounts/login/" method="post">
-            {% csrf_token %}
-            {% bootstrap_form form%}
-
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary btn-sm" value="Login">
-            </div>
-
-            <input type="hidden" name="next" value="{{next}}">
-
-          </form>
-
-        </div>
-
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="row d-flex justify-content-center align-items-center mt-5 containlog">
+      <div class="col-md-6 imglogo">
+        <img src="{% static 'images/insta-screen.png' %}" alt="instagram landing pic" class="img-fluid instapic">
       </div>
+  
+      <div class="col-md-6">
+        <div class="d-flex flex-column justify-content-center align-items-center loginslot">
+          {% if form.errors %}
+          <p> Password or Username is incorrect </p>
+          {% endif %}
+          <div class="panel panel-default">
+            <div class="panel-heading text-center">
+              <img src="{% static 'images/logo.png' %}" alt="" width='85%' class='mt-2 mb-2'>
+            </div>
+            <div class="panel-body">
+              <form action="/accounts/login/" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form%}
+                <div class="form-group d-flex justify-content-center align-items-center">
+                  <input type="submit" class="btn login-button" value="Login">
+                </div>
+                <input type="hidden" name="next" value="{{next}}">
+              </form>
+            </div>
+            <div class="separator">OR</div>
+            <button class='btn btn-primary fb-button mt-2 mb-2'>Log in with Facebook</button>
 
+            <p class="text-center">Forgot password?</p>
+          </div>
+        </div>
+        <div class="loginslorextra mt-2 text-center">
+        <p>Don't have an account? <a href="/accounts/register">Sign Up</a></p>
+        </div>
+        <p class="text-center mt-3">Get the app</p>
+        <div class="logingetapp justify-content-center align-items-center text-center ml-md-5">
+          <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_android_english-en.png/e9cd846dc748.png" alt="" class='img-fluid getapp'>
+          <img src="https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english-en.png/180ae7a0bcf7.png" alt=""  class='img-fluid getapp'>
+        </div>
+      </div>
     </div>
-    <!-- empty div -->
-    <div class="col-md-4"></div>
   </div>
-</div>
+
 
 {% endblock %}
