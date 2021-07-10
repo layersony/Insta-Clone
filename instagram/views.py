@@ -44,4 +44,17 @@ def profile(request):
   user_pics = Post.user_pictures(request.user.username)
   return render(request, 'profile/index.html', {'title':title, "user":request.user, "user_form":user_form, 'profile_form':profile_form, 'user_pics':user_pics})
 
-# Create your views here.
+@login_required(login_url='accounts/login')
+def post_pic(request):
+  if request.method == 'POST':
+    postForm = PostPicForm(request.POST, request.FILES)
+    if postForm.is_valid():
+      pic = postForm.save(commit=False)
+      pic.uploadedBy = request.user
+      pic.save()
+      messages.success(request, 'Image Uploaded successfully')
+    return redirect('uprofile')
+
+  postForm = PostPicForm()
+  return render(request, 'profile/postpic.html', {'postForm':postForm})
+
