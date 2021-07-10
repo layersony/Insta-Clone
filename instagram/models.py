@@ -90,6 +90,7 @@ class Comments(models.Model):
   def save_comment(self):
     self.save()
 
-  def delete_comment(self, id):
-    self.objects.filter(id=id).delete()
+  @classmethod
+  def delete_comment(cls, id):
+    cls.objects.filter(id=id).delete()
   
