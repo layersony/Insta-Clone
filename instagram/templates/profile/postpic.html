@@ -1,0 +1,10 @@
+{% load crispy_forms_tags %}
+{% include 'navbar.html' %}
+
+
+<form action="" method='POST' enctype="multipart/form-data">
+  {%csrf_token%}
+  {{postForm|crispy}}
+  <button type="submit" class="btn btn-primary">Save changes</button>
+
+</form>
