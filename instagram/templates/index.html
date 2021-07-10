@@ -1,25 +1,51 @@
-{% include 'navbar.html' %}
+{% extends 'base.html' %}
 
-{{title}}
-<br>
-{% for image in allpics%}
-<div id="image{{image.id}}"></div>
-<img src="{{ image.picture.url }}" alt="">
-<p>{{ image.caption }}</p>
-<form  action="{%url 'home'%}" method="post" enctype="multipart/form-data">
-  {%csrf_token%}
-  <input type="hidden" name="imageid" value='{{image.id}}'>
-  {{ commentForm }}
-  <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
-</form>
+{% block content %}
+<div class="row">
+  <div class="col-sm-12 col-md-8">
 
-  <h4>comments</h4>
-  {%for comment in allcomments%}
-    {%if comment.pic.id == image.id%}
-    <p>
-      <strong>{{comment.user.username}}</strong> {{comment.comment}}
-    </p>
-    {%endif%}
-  {%endfor%}
+    <div class='mt-5 p-2'>
+      {% for image in allpics%}
 
-{% endfor%}
+      <div class='imagepic mt-5 mb-5 p-4'>
+        <div id="image{{image.id}}"></div>
+        <div class="card-header d-flex justify-content-right align-items-center">
+          
+          <img src="{{ image.uploadedBy.profilePic.url }}" alt="user{{ image.uploadedBy.id }}" class="img-circle">
+          <span>  {{ image.uploadedBy.username }}</span>
+
+        </div>
+        <div class='text-center'>
+          <img src="{{ image.picture.url }}" alt="" class='img-fluid postimage'>
+        </div>
+        <hr>
+        {% if allcomments %}
+        <h4>comments</h4>
+        {%for comment in allcomments%}
+        {%if comment.pic.id == image.id%}
+        <p>
+          <strong>{{comment.user.username}}</strong> {{comment.comment}}
+        </p>
+        {%endif%}
+        {%endfor%}
+        {% else %}
+
+        {% endif %}
+        <form action="{%url 'home'%}" method="post" enctype="multipart/form-data">
+          {%csrf_token%}
+          <input type="hidden" name="imageid" value='{{image.id}}'>
+          {{ commentForm }}
+          <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
+        </form>
+      </div>
+      {% endfor%}
+    </div>
+  </div>
+  <div class="col-md-4">
+
+  </div>
+</div>
+
+
+
+{% endblock %}
