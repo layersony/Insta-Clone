@@ -1,26 +1,42 @@
 {% load static %}
 <div class="navjus">
   <div class="container">
-    <nav class="navbar navbar-expand-lg navcustom">
-      <a class="navbar-brand" href="#"><img src="{% static 'images/logo.png' %}" alt="logo"></a>
+    <nav class="navbar navbar-expand-lg bg-light navcustom">
+      <a class="navbar-brand mr-md-5" href="/"><img src="{% static 'images/logo.png' %}" alt="logo"></a>
       <button class="navbar-toggler  bg-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    
+
+
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="ml-md-5 form-inline d-flex flex-column justify-content-center align-items-center mt-5 mb-3" role="search" action='{% url "search_results" %}'>
+          <div class="searchform">
+            <div class="search">
+              <button type="submit" class="searchButton"><i class="fad fa-search"></i></button>
+              <input class="form-control me-2 searchTerm" name="search" type="search" placeholder="Search" aria-label="Search">
+            </div>
+          </div>
+        </form>
+
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a></li>
-          {% if user.is_authenticated %}
-          <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-          <li class="nav-item active"><a class="nav-link" href="{% url 'postpic' %}">Post Picture</a></li>
-          <li class="nav-item active"><a class="btn btn-outline-primary" href="{% url 'uprofile' %}">{{user.username|title}}</a></li>
-        {% else %}
-          <li class="nav-item active"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-          <li class="nav-item active"><a class="btn btn-danger" href="{% url 'registration_register' %}">Register</a></li>
-        {% endif %}
+          <li class="nav-item active"><a class="nav-link" href="{% url 'home' %}"><i class="fad fa-home-alt"></i></a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="fal fa-paper-plane"></i></a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="fal fa-compass"></i></a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="fal fa-heart"></i></a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i></a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if user.is_authenticated %}
+              <a class="dropdown-item" href="{% url 'postpic' %}"><i class="fal fa-plus-circle"></i> Post Pic</a>
+              <a class="dropdown-item" href="{% url 'uprofile' %}"><i class="far fa-user"></i>  {{user.username|title}}</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout' %}"><i class="fal fa-sign-out"></i>Logout</a>
+            {% endif %}
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
   </div>
 </div>
-
