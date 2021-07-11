@@ -1,3 +1,6 @@
+body{
+  background: #FAFAFA;
+}
 .navbar-brand img{
   width: 120px;
 }
@@ -6,15 +9,114 @@
 } */
 .navjus{
   border-bottom: 2px solid;
+  width: -webkit-fill-available;
+  z-index: 2;
 }
 hr{
   height: 20px;
 }
 .imagepic{
-  background: rgba(220, 220, 220, 0.337);
+  border: 1px solid rgba(128, 128, 128, 0.563);
+  box-shadow: 1px 0px 1px;
+  border-radius: 4px;
 }
 
 .postimage{
   max-height: 400px;
-  
+}
+.profilepic{
+  background: rgb(255, 255, 255);
+  width: 170px;
+  border-radius: 50%;
+}
+.profileheader{
+  max-width: 350px;
+}
+.wrapper-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem ,20rem));
+  justify-content: center;
+}
+.contimage{
+  background: rgb(184, 184, 184);
+
+}
+.userpics{
+  height: 250px;
+  object-fit: fit;
+}
+/****************
+** search from **
+****************/
+.searchform{
+  background-color: transparent;
+}
+
+.searchform .search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+.searchform .searchTerm {
+  width: 100%;
+  border: 1px solid black;
+  border-left: none;
+  padding: 10px;
+  border-radius: 0 3px 3px 0;
+  outline: none;
+  color: #5e4545;
+  text-align: center;
+}
+.searchform .searchTerm:focus, *:focus{
+  outline: none;
+}
+.searchform .searchButton {
+  width: 40px;
+  height: inherit;
+  border: 1px solid black;
+  border-right: none;
+  background: transparent;
+  text-align: center;
+  color: #fff;
+  border-radius: 3px 0 0 3px;
+  cursor: pointer;
+  font-size: 20px;
+}
+button:focus {
+  border: none;
+  outline: none;
+}
+.searchform .searchButton i{
+  color: #000;
+  border: none;
+  font-size: 18px;
+}
+
+.navbar-nav.fas, .fal, .fad{
+  color: black;
+  font-size: 30px;
+  margin-right: 10px;
+}
+.dropdown-menu i{
+  font-size: 18px;
+}
+.nav-link>.fas{
+  color: black;
+  font-size: 30px;
+  margin-right: 10px;
+}
+.login-button{
+  width:100%;
+  background-color: #B2DFFC;
+  color: white;
+}
+
+.landingImage{
+  width: 30px;
+}
+.imagedetail{
+  min-height: 400px;
+  border: 1px solid rgba(128, 128, 128, 0.563);
+  box-shadow: 1px 0px 1px;
+  border-radius: 4px;
 }

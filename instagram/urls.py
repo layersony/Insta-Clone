@@ -6,8 +6,11 @@ from django.conf import settings
 
 urlpatterns=[
   path('', views.index, name='home'),
-  path('accounts/profile', views.profile, name='uprofile'),
-  path('postpic', views.post_pic, name='postpic')
+  path('account/profile', views.profile, name='uprofile'),
+  path('postpic', views.post_pic, name='postpic'),
+  path('userprofile/<int:id>/', views.userprofile, name='userprofile'),
+  path('search/', views.searchUser, name='search_results'),
+  path('imagedetails/<int:id>', views.imagedetails, name='imagedetails')
 ]
 
 if settings.DEBUG:
