@@ -6,8 +6,8 @@
 
 <div class="row mt-5">
   <div class="col-md-6 text-center">
-    {% if user.profile.profilePic.url %}
-    <img src="{{ user.profile.profilePic.url }}" alt="" class="img-fluid profilepic">
+    {% if userprofile.profilePic.url %}
+    <img src="{{ userprofile.profilePic.url }}" alt="" class="img-fluid profilepic">
     {% else %}
     <p>no image</p>
     {% endif %}
@@ -15,8 +15,9 @@
   <div class="col-md-6">
     <div class="profileheader">
       <div class='d-flex justify-content-between align-items-center'>
-        <h3>{{ user.username }}</h3>
-        <button class="btn btn-md btn-outline-dark ">Edit Profile</button>
+        <h3>{{ userprofile.username }}</h3>
+        <button class="btn btn-md btn-outline-success ">Follow</button>
+
       </div>
       <div class="d-flex justify-content-between align-items-center mt-md-3">
         <p>{{ user_pics.count}} Posts</p>
@@ -26,22 +27,11 @@
       <div class="extras">
         
       </div>
-      <h5><strong>{{ user.profile.fullName }}</strong></h5>
-      <p>bio: {{ user.profile.bio }}</p>
+      <h5><strong>{{ userprofile.fullName }}</strong></h5>
+      <p>bio: {{ userprofile.bio }}</p>
     </div>
   </div>
 </div>
-
-
-
-<h3>Update Profile</h3>
-<form method="post" enctype="multipart/form-data" action="{% url 'uprofile' %}">
-  {% csrf_token %}
-  {{ user_form|crispy }}
-  <br>
-  {{ profile_form|crispy}}
-<button type="submit" class="btn btn-primary">Save changes</button>
-</form>
 
 <hr>
 <div class="wrapper-grid justify-content-center align-items-center text-center mb-5">

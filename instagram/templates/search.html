@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2 class="text-center mt-5">Search</h2>
+<hr>
+{% if searchresults  %}
+<div class="wrapper-grid justify-content-center align-items-center text-center mb-5">
+  {% for image in searchresults%}
+  <div class="m-1 contimage">
+    <div>
+      <img src="{{ image.profile.profilePic.url }}" alt="" class="img-fluid searchpic">
+    </div>
+    <a href="{% url 'userprofile' image.profile.id %}"><span> {{ image.profile }}</span></a>
+  </div>
+  {% endfor%}
+</div>
+{% else %}
+<p class="text-center">Try another name</p>
+{% endif %}
+
+
+{% endblock %}

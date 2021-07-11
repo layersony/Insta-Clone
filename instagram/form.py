@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile, Post, Comments
+from .models import Profile, Post, Comments, Likes
+# from django_registration.forms import RegistrationForm
 
 class UserForm(forms.ModelForm):
   class Meta:
@@ -26,3 +27,8 @@ class CommentForm(forms.ModelForm):
     exclude = ('pic', 'user')
     fields = '__all__'
     
+class LikeForm(forms.ModelForm):
+  class Meta:
+    model = Likes
+    exclude = ('post', 'user')
+    fields = '__all__'
