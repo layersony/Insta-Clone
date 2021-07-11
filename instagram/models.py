@@ -27,7 +27,7 @@ class Location(models.Model):
     return self.location
 
 class Profile(models.Model):
-  profilePic = models.ImageField(upload_to='userProfiles/', null=True, blank=True)
+  profilePic = models.ImageField(upload_to='userProfiles/', null=True, blank=True, default='userProfiles/test.png')
   fullName= models.CharField(max_length=255, null=True)
   username = models.OneToOneField(User, on_delete=models.CASCADE)
   bio = HTMLField(null=True, blank=True)
@@ -82,6 +82,9 @@ class Post(models.Model):
     all_pics = cls.objects.all()
     return all_pics
 
+  class Meta:
+    ordering = ['-posted']
+
 class Comments(models.Model):
   comment = models.CharField(max_length=200, null=True, blank=True)
   pic = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -94,3 +97,18 @@ class Comments(models.Model):
   def delete_comment(cls, id):
     cls.objects.filter(id=id).delete()
   
+# class Follow(models.Model):
+#   follower = models.ForeignKey(User, on_delete=models.CASCADE)
+#   follower = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Likes(models.Model):
+  # likes = models.CharField(max_length=200,  null=True, blank=True)
+  likes = models.BooleanField(default=False)
+  post = models.ForeignKey(Post, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.likes
+
+  def save_like(self): 
+    self.save()
