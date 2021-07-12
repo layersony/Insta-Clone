@@ -33,6 +33,7 @@ class Profile(models.Model):
   bio = HTMLField(null=True, blank=True)
   phoneNumber = models.IntegerField(null=True)
   gender = models.CharField(choices=Gender, default='Male', null=True, max_length=50)
+  count = models.IntegerField(default=0, null=True, blank=True)
 
   @receiver(post_save, sender=User)
   def create_user_profile(sender, instance, created, **kwargs):
@@ -97,9 +98,9 @@ class Comments(models.Model):
   def delete_comment(cls, id):
     cls.objects.filter(id=id).delete()
   
-# class Follow(models.Model):
-#   follower = models.ForeignKey(User, on_delete=models.CASCADE)
-#   follower = models.ForeignKey(User, on_delete=models.CASCADE)
+class Follow(models.Model):
+  follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower')
+  following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
 
 class Likes(models.Model):
   # likes = models.CharField(max_length=200,  null=True, blank=True)

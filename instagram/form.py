@@ -12,7 +12,7 @@ class ProfileForm(forms.ModelForm):
   
   class Meta:
     model = Profile
-    exclude = ('username',)
+    exclude = ('username','count')
     fields = ('fullName', 'bio', 'profilePic', 'phoneNumber', 'gender')
   
 class PostPicForm(forms.ModelForm):
