@@ -9,7 +9,7 @@
   {% for image in searchresults%}
   <div class="m-1 contimage">
     <div>
-      <img src="{{ image.profile.profilePic.url }}" alt="" class="img-fluid searchpic">
+      <a href="{% url 'imagedetails' image.id %}"><img src="{{ image.profile.profilePic.url }}" alt="" class="img-fluid searchpic"></a>
     </div>
     <a href="{% url 'userprofile' image.profile.id %}"><span> {{ image.profile }}</span></a>
   </div>

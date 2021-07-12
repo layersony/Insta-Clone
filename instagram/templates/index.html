@@ -9,45 +9,46 @@
     <div class='mt-5 p-2'>
       {% for image in allpics%}
 
-      <div class='imagepic mt-5 mb-5 p-4'>
+      <div class='imagepic mt-5 mb-5'>
         <div id="image{{image.id}}"></div>
         <div class="d-flex justify-content-right align-items-center p-3">
-          <img src="{% static 'images/test.png' %}" alt="user{{ image.uploadedBy.id }}" class="img-fluid landingImage mr-md-2">
-          <a href="{% url 'userprofile' image.uploadedBy.id %}" class='text-dark'><span> {{ image.uploadedBy }}</span></a>
+          <img src="{{ image.uploadedBy.profile.profilePic.url }}" alt="user{{ image.uploadedBy.id }}" class="img-fluid landingImage mr-md-2">
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <a href="{% url 'userprofile' image.uploadedBy.profile.id %}" class='text-dark'><span> {{ image.uploadedBy }}</span></a>
+            <sub>{{ image.location }}</sub>
+          </div>
         </div>
         <div class='text-center'>
           <a href="{% url 'imagedetails' image.id %}"><img src="{{ image.picture.url }}" alt="" class='img-fluid postimage'></a>
+          <p class="text-left pt-2"><strong>Caption:</strong> {{ image.caption }}</p>
         </div>
-        <hr>
-
-        <form action="{%url 'home'%}" method="post" enctype="multipart/form-data">
-          {%csrf_token%}
-          <input type="hidden" name="likeid" value='{{image.id}}'>
-          {% bootstrap_form likeform %}
-
-          <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
-        </form>
-
-        <hr>
-        {% if allcomments %}
-          <h4>comments</h4>
-          {%for comment in allcomments%}
-            {%if comment.pic.id == image.id%}
-            <p>
-              <strong>{{comment.user.username}}</strong> {{comment.comment}}
-            </p>
-            {%endif%}
-          {%endfor%}
-        {% else %}
-
-        {% endif %}
-        <form action="{%url 'home'%}" method="post" enctype="multipart/form-data">
-          {%csrf_token%}
-          <input type="hidden" name="imageid" value='{{image.id}}'>
-          {% bootstrap_form commentForm %}
-          <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
-        </form>
-      </div>
+        <div class="p-3">
+          <form action="{%url 'home'%}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <input type="hidden" name="likeid" value='{{image.id}}'>
+            {% bootstrap_form likeform %}
+  
+            <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
+          </form>
+            {% if allcomments %}
+            {%for comment in allcomments%}
+              {%if comment.pic.id == image.id%}
+              <p>
+                <strong>{{comment.user.username}}</strong> {{comment.comment}}
+              </p>
+              {%endif%}
+            {%endfor%}
+          {% else %}
+          <p>comments {{allcomments.count}}</p>
+          {% endif %}
+          <form action="{%url 'home'%}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <input type="hidden" name="imageid" value='{{image.id}}'>
+            {% bootstrap_form commentForm %}
+            <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
+          </form>
+        </div>
+        </div>
       {% endfor%}
     </div>
   </div>

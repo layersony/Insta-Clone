@@ -4,34 +4,37 @@
 
 {% block content %}
 <h4 class="text-center mt-4">Image Details for Post {{ specificpic.id }} by {{ specificpic.uploadedBy.username}}</h4>
-<div class="p-3 mt-5 imagedetail d-flex justify-content-center align-items-center">
+<div class="mt-5 imagedetail d-flex justify-content-center align-items-center">
   <div class="row">
     <div class="col-md-9">
       <img src="{{specificpic.picture.url }}" alt="image{{specificpic.id}}" class="img-fluid">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 mt-2 p-3">
       <div class="header">
-        <img src="{% static 'images/test.png' %}" alt="image{{specificpic.id}}" class="img-fluid landingImage mr-md-2">
-        <span><strong>{{ specificpic.uploadedBy.username }}</strong></span><br><sub>{{ specificpic.location }}</sub>
+        <img src="{{ specificpic.uploadedBy.profile.profilePic.url  }}" alt="image{{specificpic.id}}" class="img-fluid landingImage mr-md-2">
+        <a href="{% url 'userprofile' specificpic.uploadedBy.profile.id %}" class='text-dark'><span> {{ specificpic.uploadedBy.username  }}</span></a><br><sub>{{ specificpic.location }}</sub>
       </div>
       <hr class="mb-2">
+      <strong>Caption: </strong>{{specificpic.caption}}
       {% if allcomments %}
       {%for comment in allcomments%}
         {%if comment.pic.id == specificpic.id%}
         <p>
-          <strong>{{comment.user.username}}</strong> {{comment.comment}}
+          <strong><a href="{% url 'userprofile' comment.user.profile.id %}" class='text-dark'><span> {{ comment.user.username  }}</span></a></strong> {{comment.comment}}
         </p>
         {%endif%}
       {%endfor%}
       {% else %}
         <p>empty</p>
       {% endif %}
+      <div class="p-1">
       <form action="{%url 'imagedetails' specificpic.id %}" method="post" enctype="multipart/form-data">
         {%csrf_token%}
         <input type="hidden" name="imageid" value='{{specificpic.id}}'>
         {% bootstrap_form commentForm %}
         <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
       </form>
+    </div>
   </div>
     </div>
   </div>
