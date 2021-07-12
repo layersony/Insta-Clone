@@ -4,9 +4,12 @@ body{
 .navbar-brand img{
   width: 120px;
 }
-/* .navcustom{
-  background: red;
-} */
+.searchdivform{
+  margin-left: 200px;
+}
+li{
+  display: inline;
+}
 .navjus{
   border-bottom: 2px solid;
   width: -webkit-fill-available;
@@ -119,4 +122,10 @@ button:focus {
   border: 1px solid rgba(128, 128, 128, 0.563);
   box-shadow: 1px 0px 1px;
   border-radius: 4px;
+}
+
+@media screen and (max-width:800px){
+  .searchdivform{
+    margin-left: 0px;
+  }
 }
