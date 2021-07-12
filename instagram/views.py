@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Post, Profile, Location, Comments
+from .models import Post, Profile, Location, Comments, Follow
 from .form import UserForm, ProfileForm, PostPicForm, CommentForm, LikeForm
 from django.contrib import messages
+from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.contrib.auth.models import User
+from .email import send_welcome_email
 
 @login_required(login_url='accounts/login')
 def index(request):
@@ -27,8 +30,11 @@ def index(request):
 
     return redirect('/#image'+str(pic_id))
 
-    
-  
+  if request.method == 'GET' and Profile.objects.get(username = request.user).count  == 0:
+    user_email = User.objects.get(username = request.user).email
+    send_welcome_email(request.user, user_email)
+    Profile.objects.filter(username = request.user).update(count = 1)
+
   title = 'this is title'
   allpics = Post.all_pictures()
   commentForm = CommentForm()
@@ -68,9 +74,23 @@ def post_pic(request):
   return render(request, 'profile/postpic.html', {'postForm':postForm, 'user':request.user})
 
 def userprofile(request, id):
-  user = Profile.objects.get(id = id)
-  user_pics = Post.user_pictures(request.user.username)
-  return render(request, 'userprofile.html', {'userprofile':user, 'user_pics':user_pics})
+  try:
+    user = Profile.objects.get(id = id)
+    user_pics = Post.user_pictures(user.username)
+    followers = User.objects.get(username = request.user.username).follower.all()
+    
+    foll_list = [follower.following.id for follower in followers]
+    if request.user.id in foll_list:
+      is_following = True
+    else:
+      is_following = False
+    if request.user.username == str(user.username):
+      return redirect('uprofile')
+    else:
+      using_user = User.objects.get(username = user.username)
+      return render(request, 'userprofile.html', {'using_user': using_user,'userprofile':user, 'user_pics':user_pics, "is_following": is_following})
+  except Profile.DoesNotExist:
+    return HttpResponseRedirect(', Sorry the Page You Looking For Doesnt Exist.')
 
 def searchUser(request):
   if 'search' in request.GET and request.GET['search']:
@@ -96,3 +116,18 @@ def imagedetails(request, id):
   pic = Post.objects.get(id = id)
   allcomments = Comments.objects.all()
   return render(request, 'imagedetails.html', {'specificpic':pic, 'commentForm':commentForm, 'allcomments':allcomments})
+
+def followuserpro(request):
+  user = User.objects.get(id = request.POST.get("id"))
+  followed = None
+
+  if Follow.objects.filter(follower = user, following = request.user):
+      Follow.objects.filter(follower = user, following = request.user).delete()
+      followed = 0
+      count = user.follower.all().count()
+  else:
+      Follow.objects.create(follower = user, following = request.user)
+      followed = 1
+      count = user.follower.all().count()
+  data = {"hey":"hey", "followed":followed, "count":count}
+  return JsonResponse(data)
