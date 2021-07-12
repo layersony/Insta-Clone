@@ -16,13 +16,17 @@
     <div class="profileheader">
       <div class='d-flex justify-content-between align-items-center'>
         <h3>{{ userprofile.username }}</h3>
-        <button class="btn btn-md btn-outline-success">Follow</button>
+        {% if is_following %}
+        <button class="btn btn-success mb-2" id = "follow-btn" onclick="follower('{{using_user.id}}')">Following</button>
+        {% else %}
+        <button class="btn btn-info mb-2" id="follow-btn" onclick="follower('{{using_user.id}}')">Follow</button>
+        {% endif %}
 
       </div>
       <div class="d-flex justify-content-between align-items-center mt-md-3">
         <p>{{ user_pics.count}} Posts</p>
-        <p>0 Following</p>
-        <p>0 Followers</p>
+        <p id='count'>{{ using_user.follower.all.count }} Followers</p>
+        <p>{{ using_user.following.all.count }} Following</p>
       </div>
       <div class="extras">
         
@@ -37,9 +41,41 @@
 <div class="wrapper-grid justify-content-center align-items-center text-center mb-5">
   {% for image in user_pics%}
   <div class="m-1 contimage">
-    <img src="{{ image.picture.url }}" alt="" class="img-fluid userpics">
+    <a href="{% url 'imagedetails' image.id %}"><img src="{{ image.picture.url }}" alt="" class="img-fluid userpics"></a>
   </div>
   {% endfor%}
 </div>
+
+<script>
+    function follower(id) {
+        let user_id = parseInt(id)
+        followBtn = document.getElementById("follow-btn")
+        console.log(followBtn)
+        $.ajax({
+            "url": "{% url 'followuserpro' %}",
+            "type": "POST",
+            "data": {
+            "id":user_id,
+            "csrfmiddlewaretoken": '{{csrf_token}}'
+            },
+            "dataType": "json",
+            "success": function(request) {
+                if(request['followed'] == 1) {
+                    console.log('1')
+                    followBtn.classList.remove("btn-info")
+                    followBtn.classList.add("btn-success")
+                    followBtn.textContent = "Following"
+                    $("#count").text(request["count"] + " Followers")
+                } else {
+                    console.log('2')
+                    followBtn.classList.remove("btn-success")
+                    followBtn.classList.add("btn-info")
+                    followBtn.textContent = "Follow" 
+                    $("#count").text(request["count"] + " Followers")
+                }  
+            }
+        })
+    }
+</script>
 
 {% endblock %}

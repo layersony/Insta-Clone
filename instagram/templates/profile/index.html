@@ -16,12 +16,12 @@
     <div class="profileheader">
       <div class='d-flex justify-content-between align-items-center'>
         <h3>{{ user.username }}</h3>
-        <button class="btn btn-md btn-outline-dark ">Edit Profile</button>
+        <button class="btn btn-md btn-outline-dark" data-toggle="modal" data-target="#myModal">Edit Profile</button>
       </div>
       <div class="d-flex justify-content-between align-items-center mt-md-3">
         <p>{{ user_pics.count}} Posts</p>
-        <p>0 Following</p>
-        <p>0 Followers</p>
+        <p>{{ user.following.all.count }} Following</p>
+        <p>{{ user.follower.all.count }} Followers</p>
       </div>
       <div class="extras">
         
@@ -33,23 +33,34 @@
 </div>
 
 
-
-<h3>Update Profile</h3>
-<form method="post" enctype="multipart/form-data" action="{% url 'uprofile' %}">
-  {% csrf_token %}
-  {{ user_form|crispy }}
-  <br>
-  {{ profile_form|crispy}}
-<button type="submit" class="btn btn-primary">Save changes</button>
-</form>
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content p-4">
+      <h3 class="text-center">Update Profile</h3>
+      <form method="post" enctype="multipart/form-data" action="{% url 'uprofile' %}">
+        {% csrf_token %}
+        {{ user_form|crispy }}
+        <br>
+        {{ profile_form|crispy}}
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>  
+</div>
 
 <hr>
+{% if user_pics %}
 <div class="wrapper-grid justify-content-center align-items-center text-center mb-5">
   {% for image in user_pics%}
   <div class="m-1 contimage">
-    <img src="{{ image.picture.url }}" alt="" class="img-fluid userpics">
+    <a href="{% url 'imagedetails' image.id %}"><img src="{{ image.picture.url }}" alt="" class="img-fluid userpics"></a>
   </div>
   {% endfor%}
 </div>
+{% else %}
+  <p class="text-center">No Posts Yet</p>
+{% endif %}
 
 {% endblock %}
